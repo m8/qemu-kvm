@@ -54,6 +54,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#qemu-tarihcesi">QEMU Tarihçesi</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#qemu-kaynak-kodunun-incelenmesi">Qemu Kaynak Kodunun İncelenmesi</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -127,6 +129,88 @@
 <li>.......</li>
 </ul>
 <p>Tüm listeye maintainer referanslarından ulaşılabilir.</p>
+<h2 id="qemu-kaynak-kodunun-incelenmesi">Qemu Kaynak Kodunun İncelenmesi</h2>
+<p>Bu yazıda QEMU’nun kaynak kodu temel seviyede incelenecektir. Bu bağlamda ilk olarak, QEMU’nun başlangıcında çalıştırılan main fonksiyonu incelenecektir. Main fonksiyonu QEMU/softmmu/main.c klasörü altında bulunur. main fonksiyonu
+içerisinde sadece 3 fonkisyon çağrılır.</p>
+<ul>
+<li><code>qemu_init()</code></li>
+<li><code>qemu_main_loop()</code></li>
+<li><code>qemu_cleanup()</code></li>
+</ul>
+<pre><code>int main(int argc, char **argv, char **envp)
+{
+    qemu_init(argc, argv, envp);
+    qemu_main_loop();
+    qemu_cleanup();
+    return 0;
+}
+</code></pre>
+<p>+---------------------------------+-----------------------------------------+
+| <strong>Fonksiyon</strong>                   |<strong>Açıklama</strong>                              |
++=================================+=========================================+
+| qemu_init_subsystems()          | - cpu_list, cpu_loop, crypto init       |
+|                                 | ediliyor                                |<br />
+|                                 |                                         |
++---------------------------------+-----------------------------------------+
+| qemu_validate_options()         | - QEMU'ya verilen ayarlar burada kontrol|
+|                                 | edilmekte ve oluşabilicek yanlışların   |<br />
+|                                 | önüne geçilmektedir.                    |
++---------------------------------+-----------------------------------------+
+| qemu_process_early_options()    | - ? + log dosyaları hazırlanıyor        |
+|                                 |                                         |<br />
+|                                 |                                         |
++---------------------------------+-----------------------------------------+
+| qemu_init_main_loop()           | - QEMU, main_loop'un başlaması için     |
+|                                 |  ön hazırlıklıkları yapmaktadır.        |<br />
+|                                 |                                         |
++---------------------------------+-----------------------------------------+
+| cpu_timer_init()                | - QEMU, CPU için çalışacak gerçek zamanlı|
+|                                 | saatin frekans ve geri kalan ayarlarını |<br />
+|                                 | yapmaktadır.                            |
++---------------------------------+-----------------------------------------+
+| configure_rtc()                 | - QEMU, RTC ayarları yapılıyor (UTC)    |
+|                                 |                                         |<br />
+|                                 |                                         |
++---------------------------------+-----------------------------------------+
+| qemu_create_machine()           | - QEMU, simüle edilecek cihazı          |   <br />
+|                                 |  oluşturmaktadır                        |<br />
+|                                 |                                         |
++---------------------------------+-----------------------------------------+
+| qemu_disable_default_devices()  | - Sanal cihaza bağlı seri bağlantılar   |
+|                                 | (SD kart, CD-ROM) ve grafik hizmetleri  |<br />
+|                                 | durdurulur.                             |
++---------------------------------+-----------------------------------------+
+| qemu_create_default_devices()   | - Serial ve grafik cihazlarını          |
+|                                 | oluşturulur.                            |<br />
+|                                 |                                         |
++---------------------------------+-----------------------------------------+
+| qemu_create_early_backends()    | - ???                                   |
+|                                 |                                         |<br />
+|                                 |                                         |
++---------------------------------+-----------------------------------------+
+| configure_accelerators()        | - Kullanılacak hızlandırıcı seçilmektedir;|
+|                                 | bunlar kvm veya tcg olabilmektedir.      |<br />
+|                                 |                                         |
++---------------------------------+-----------------------------------------+
+| migration_object_init()         | - ???                                   |
+|                                 |                                         |<br />
+|                                 |                                         |
++---------------------------------+-----------------------------------------+
+| qemu_create_late_backends()     | - ???                                   |<br />
+|                                 |                                         |<br />
+|                                 |                                         |
++---------------------------------+-----------------------------------------+
+| accel_init_interfaces()         | - CPU arayüzleri başlatılır.          |
+|                                 |                                         |<br />
+|                                 |                                         |
++---------------------------------+-----------------------------------------+
+| qemu_init_displays()            | - Lokal ve uzak displayler başlatılır. |
+|                                 |                                         | 
+|                                 |                                         |
++---------------------------------+-----------------------------------------+
+| os_setup_post()                 |                                         |
+|                                 |                                         |
++---------------------------------+-----------------------------------------+</p>
               
             </div>
           </div>
@@ -180,5 +264,5 @@
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-04-21 00:10:07.640799+00:00
+Build Date UTC : 2021-04-22 13:58:26.900185+00:00
 -->
