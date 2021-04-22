@@ -145,72 +145,80 @@ içerisinde sadece 3 fonkisyon çağrılır.</p>
     return 0;
 }
 </code></pre>
-<p>+---------------------------------+-----------------------------------------+
-| <strong>Fonksiyon</strong>                   |<strong>Açıklama</strong>                              |
-+=================================+=========================================+
-| qemu_init_subsystems()          | - cpu_list, cpu_loop, crypto init       |
-|                                 | ediliyor                                |<br />
-|                                 |                                         |
-+---------------------------------+-----------------------------------------+
-| qemu_validate_options()         | - QEMU'ya verilen ayarlar burada kontrol|
-|                                 | edilmekte ve oluşabilicek yanlışların   |<br />
-|                                 | önüne geçilmektedir.                    |
-+---------------------------------+-----------------------------------------+
-| qemu_process_early_options()    | - ? + log dosyaları hazırlanıyor        |
-|                                 |                                         |<br />
-|                                 |                                         |
-+---------------------------------+-----------------------------------------+
-| qemu_init_main_loop()           | - QEMU, main_loop'un başlaması için     |
-|                                 |  ön hazırlıklıkları yapmaktadır.        |<br />
-|                                 |                                         |
-+---------------------------------+-----------------------------------------+
-| cpu_timer_init()                | - QEMU, CPU için çalışacak gerçek zamanlı|
-|                                 | saatin frekans ve geri kalan ayarlarını |<br />
-|                                 | yapmaktadır.                            |
-+---------------------------------+-----------------------------------------+
-| configure_rtc()                 | - QEMU, RTC ayarları yapılıyor (UTC)    |
-|                                 |                                         |<br />
-|                                 |                                         |
-+---------------------------------+-----------------------------------------+
-| qemu_create_machine()           | - QEMU, simüle edilecek cihazı          |   <br />
-|                                 |  oluşturmaktadır                        |<br />
-|                                 |                                         |
-+---------------------------------+-----------------------------------------+
-| qemu_disable_default_devices()  | - Sanal cihaza bağlı seri bağlantılar   |
-|                                 | (SD kart, CD-ROM) ve grafik hizmetleri  |<br />
-|                                 | durdurulur.                             |
-+---------------------------------+-----------------------------------------+
-| qemu_create_default_devices()   | - Serial ve grafik cihazlarını          |
-|                                 | oluşturulur.                            |<br />
-|                                 |                                         |
-+---------------------------------+-----------------------------------------+
-| qemu_create_early_backends()    | - ???                                   |
-|                                 |                                         |<br />
-|                                 |                                         |
-+---------------------------------+-----------------------------------------+
-| configure_accelerators()        | - Kullanılacak hızlandırıcı seçilmektedir;|
-|                                 | bunlar kvm veya tcg olabilmektedir.      |<br />
-|                                 |                                         |
-+---------------------------------+-----------------------------------------+
-| migration_object_init()         | - ???                                   |
-|                                 |                                         |<br />
-|                                 |                                         |
-+---------------------------------+-----------------------------------------+
-| qemu_create_late_backends()     | - ???                                   |<br />
-|                                 |                                         |<br />
-|                                 |                                         |
-+---------------------------------+-----------------------------------------+
-| accel_init_interfaces()         | - CPU arayüzleri başlatılır.          |
-|                                 |                                         |<br />
-|                                 |                                         |
-+---------------------------------+-----------------------------------------+
-| qemu_init_displays()            | - Lokal ve uzak displayler başlatılır. |
-|                                 |                                         | 
-|                                 |                                         |
-+---------------------------------+-----------------------------------------+
-| os_setup_post()                 |                                         |
-|                                 |                                         |
-+---------------------------------+-----------------------------------------+</p>
+<table>
+<thead>
+<tr>
+<th><strong>Fonksiyon</strong></th>
+<th><strong>Açıklama</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>qemu_init_subsystems()</td>
+<td>- cpu_list, cpu_loop, crypto init ediliyor</td>
+</tr>
+<tr>
+<td>qemu_validate_options()</td>
+<td>- QEMU'ya verilen ayarlar burada kontrol edilmekte ve oluşabilicek yanlışların önüne geçilmektedir</td>
+</tr>
+<tr>
+<td>qemu_process_early_options()</td>
+<td>- ? + log dosyaları hazırlanıyor</td>
+</tr>
+<tr>
+<td>qemu_init_main_loop()</td>
+<td>- QEMU, main_loop'un başlaması için ön hazırlıklıkları yapmaktadır.</td>
+</tr>
+<tr>
+<td>cpu_timer_init()</td>
+<td>- QEMU, CPU için çalışacak gerçek zamanlı saatin frekans ve geri kalan ayarlarını yapmaktadır</td>
+</tr>
+<tr>
+<td>configure_rtc()</td>
+<td>- QEMU, RTC ayarları yapılıyor (UTC)</td>
+</tr>
+<tr>
+<td>qemu_create_machine()</td>
+<td>- QEMU, simüle edilecek cihazı oluşturmaktadır</td>
+</tr>
+<tr>
+<td>qemu_disable_default_devices()</td>
+<td>- Sanal cihaza bağlı seri bağlantılar (SD kart, CD-ROM) ve grafik hizmetleri durdurulur.</td>
+</tr>
+<tr>
+<td>qemu_create_default_devices()</td>
+<td>- Serial ve grafik cihazlarını oluşturulur.</td>
+</tr>
+<tr>
+<td>qemu_create_early_backends()</td>
+<td>- ???</td>
+</tr>
+<tr>
+<td>configure_accelerators()</td>
+<td>- Kullanılacak hızlandırıcı seçilmektedir bunlar kvm veya tcg olabilmektedir.</td>
+</tr>
+<tr>
+<td>migration_object_init()</td>
+<td>- ???</td>
+</tr>
+<tr>
+<td>qemu_create_late_backends()</td>
+<td>- ???</td>
+</tr>
+<tr>
+<td>accel_init_interfaces()</td>
+<td>- CPU arayüzleri başlatılır.</td>
+</tr>
+<tr>
+<td>qemu_init_displays()</td>
+<td>- Lokal ve uzak displayler başlatılır.</td>
+</tr>
+<tr>
+<td>os_setup_post()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div>
@@ -264,5 +272,5 @@ içerisinde sadece 3 fonkisyon çağrılır.</p>
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-04-22 13:58:26.900185+00:00
+Build Date UTC : 2021-04-22 14:04:41.046033+00:00
 -->
