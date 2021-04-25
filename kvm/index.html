@@ -109,6 +109,187 @@
 </ul>
 <h2 id="kvm-cekirdek-modulu">KVM Çekirdek Modülü</h2>
 <p>KVM'nin çekirdek modülü temel sanallaştırma işlevlerini yapmaktadır bunlardan bazıları CPU emülasyonu, MMU sanallaştırması vb. Ancak KVM giriş çıkış sistemleri için bir sanallaştırma yapmaz [63].</p>
+<h1 id="kvm-api">KVM API</h1>
+<p><strong>Kaynaklar</strong> 
+-  <a href="https://www.kernel.org/doc/Documentation/virtual/kvm/api.txt">KVM API Dökümanı</a>
+-  <a href="https://github.com/torvalds/linux/tree/master/arch/x86/kvm">Linux KVM Bölümü</a></p>
+<p><strong>İçindekiler</strong>
+- <a href="#kvm-api">KVM API</a>
+  - <a href="#kvm_cap_xsave">KVM_CAP_XSAVE</a>
+  - <a href="#kvm_cap_xcrs">KVM_CAP_XCRS</a>
+  - <a href="#kvm_cap_vcpu_events">KVM_CAP_VCPU_EVENTS</a>
+  - <a href="#kvm_cap_debugregs">KVM_CAP_DEBUGREGS</a>
+  - <a href="#kvm_cap_hyperv_eventfd">KVM_CAP_HYPERV_EVENTFD</a>
+  - <a href="#kvm_cap_hyperv_cpuid">KVM_CAP_HYPERV_CPUID</a>
+  - <a href="#kvm_cap_set_tss_addr">KVM_CAP_SET_TSS_ADDR</a>
+  - <a href="#kvm_cap_irqchip">KVM_CAP_IRQCHIP</a>
+  - <a href="#kvm_cap_pit">KVM_CAP_PIT</a>
+  - <a href="#kvm_cap_pit2">KVM_CAP_PIT2</a>
+  - <a href="#kvm_cap_enable_cap">KVM_CAP_ENABLE_CAP</a>
+  - <a href="#kvm_cap_pmu_event_filter">KVM_CAP_PMU_EVENT_FILTER</a>
+  - <a href="#kvm_cap_set_identity_map_addr">KVM_CAP_SET_IDENTITY_MAP_ADDR</a>
+  - <a href="#kvm_cap_x86_msr_filter">KVM_CAP_X86_MSR_FILTER</a>
+  - <a href="#kvm_cap_mce">KVM_CAP_MCE</a></p>
+<h2 id="kvm_cap_xsave">KVM_CAP_XSAVE</h2>
+<p>KVM_CAP_XSAVE bayrağı ile gelen özellik KVM_GET_XSAVE ve KVM_SET_XSAVE ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_GET_XSAVE ve KVM_SET_XSAVE bayrağı çekirdek tarafında </p>
+<pre><code>kvm_vcpu_ioctl_x86_get_xsave(struct kvm_vcpu *vcpu, struct kvm_xsave *guest_xsave)
+kvm_vcpu_ioctl_x86_set_xsave(struct kvm_vcpu *vcpu, struct kvm_xsave *guest_xsave)
+</code></pre>
+<p>fonksiyonuna dallanıyor.</p>
+<ul>
+<li>4.42) KVM_GET_XSAVE: Bu ioctl, vcpu'nun xsave struct'ını belirtilen userspace'e kopyalar.</li>
+<li>4.43) KVM_SET_XSAVE: Bu ioctl, vcpu'nun xsave struct'ını belirtilen userspace'e ayarlar.</li>
+</ul>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_xcrs">KVM_CAP_XCRS</h2>
+<p>KVM_CAP_XCRS bayrağı ile gelen özellik KVM_GET_XCRS ve KVM_SET_XCRS ioctl'ları ile yönetilebiliyor; x86 üzerinden KVM_CAP_XCRS bayrağı çekirdek tarafında </p>
+<pre><code>kvm_vcpu_ioctl_x86_get_xcrs()
+kvm_vcpu_ioctl_x86_set_xcrs()
+</code></pre>
+<p>fonksiyonuna dallanıyor.</p>
+<ul>
+<li>4.44) KVM_GET_XCRS: Bu ioctl, vcpu'nun xcr'sini belirtilen userspace'e kopyalar.</li>
+<li>4.45) KVM_SET_XCRS: Bu ioctl, vcpu'nun xcr'sini belirtilen userspace'e ayarlar.</li>
+</ul>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_vcpu_events">KVM_CAP_VCPU_EVENTS</h2>
+<p>KVM_CAP_VCPU_EVENTS bayrağı ile gelen özellik KVM_GET_VCPU_EVENTS ve KVM_SET_VCPU_EVENTS ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_GET_VCPU_EVENTS ve KVM_SET_VCPU_EVENTS bayrakları çekirdek tarafında </p>
+<pre><code>kvm_vcpu_ioctl_x86_get_vcpu_events()
+kvm_vcpu_ioctl_x86_set_vcpu_events()
+</code></pre>
+<p>fonksiyonuna dallanıyor.</p>
+<ul>
+<li>4.31) KVM_GET_VCPU_EVENTS: Şu anda bekleyen exception'ları, interrupt'ları ve NMI'leri ve ayrıca vcpu'nun ilgili durumlarını alır.</li>
+<li>4.32) KVM_SET_VCPU_EVENTS: Şu anda bekleyen exception'ları, interrupt'ları ve NMI'leri vcpu'lara yazar.</li>
+</ul>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_debugregs">KVM_CAP_DEBUGREGS</h2>
+<p>KVM_CAP_DEBUGREGS bayrağı ile gelen özellik KVM_GET_DEBUGREGS ve KVM_SET_DEBUGREGS ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_GET_DEBUGREGS ve KVM_SET_DEBUGREGS bayrakları çekirdek tarafında </p>
+<pre><code>kvm_vcpu_ioctl_x86_get_debugregs(struct kvm_vcpu *vcpu, struct kvm_debugregs *dbgregs)
+kvm_vcpu_ioctl_x86_set_debugregs(struct kvm_vcpu *vcpu, struct kvm_debugregs *dbgregs)
+
+</code></pre>
+<p>fonksiyonuna dallanıyor.</p>
+<ul>
+<li>4.33) KVM_GET_DEBUGREGS: Vcpu'dan debug register'ını okur.</li>
+<li>4.44) KVM_SET_DEBUGREGS Vcpu'dan debug register'ına yazar.</li>
+</ul>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_hyperv_eventfd">KVM_CAP_HYPERV_EVENTFD</h2>
+<p>KVM_CAP_HYPERV_EVENTFD bayrağı ile gelen özellik KVM_HYPERV_EVENTFD ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_HYPERV_EVENTFD bayrağı çekirdek tarafında </p>
+<pre><code>kvm_vm_ioctl_hv_eventfd(struct kvm *kvm, struct kvm_hyperv_eventfd *args)
+</code></pre>
+<p>fonksiyonuna dallanıyor.</p>
+<ul>
+<li>4.113) KVM_HYPERV_EVENTFD: Bu ioctl (un), bir kullanıcının çıkışına neden olmadan SIGNAL_EVENT hypercall'ı aracılığıyla belirtilen Hyper-V bağlantı kimliğine ilişkin konuktan bildirimler almak için eventfd'yi kaydeder.</li>
+</ul>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_hyperv_cpuid">KVM_CAP_HYPERV_CPUID</h2>
+<p>KVM_CAP_HYPERV_CPUID bayrağı ile gelen özellik KVM_GET_SUPPORTED_HV_CPUID ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_GET_SUPPORTED_HV_CPUID bayrağı çekirdek tarafında </p>
+<pre><code>kvm_ioctl_get_supported_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 __user *cpuid_arg)
+</code></pre>
+<p>fonksiyonuna dallanıyor.</p>
+<ul>
+<li>4.118) KVM_GET_SUPPORTED_HV_CPUID: Bu ioctl, KVM'deki Hyper-V emulasyonu ile ilgili x86 cpuid özellikleri döndür.</li>
+</ul>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_set_tss_addr">KVM_CAP_SET_TSS_ADDR</h2>
+<p>KVM_CAP_SET_TSS_ADDR bayrağı ile gelen özellik KVM_SET_TSS_ADDR ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_SET_TSS_ADDR bayrağı çekirdek tarafında </p>
+<pre><code>kvm_vm_ioctl_set_tss_addr(struct kvm *kvm, unsigned long addr)
+</code></pre>
+<p>fonksiyonuna dallanıyor.</p>
+<ul>
+<li>4.38) KVM_SET_TSS_ADDR: Bu ioctl konuk bilgisayarın three-page bölgesinin fiziksel adresini tanımlar.</li>
+</ul>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_irqchip">KVM_CAP_IRQCHIP</h2>
+<p>KVM_CAP_IRQCHIP bayrağı ile gelen özellik KVM_CREATE_IRQCHIP, KVM_GET_IRQCHIP ve KVM_SET_IRQCHIP ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_GET_IRQCHIP ve KVM_SET_IRQCHIP bayrağı çekirdek tarafında</p>
+<pre><code>kvm_vm_ioctl_get_irqchip(struct kvm *kvm, struct kvm_irqchip *chip)
+kvm_vm_ioctl_set_irqchip(struct kvm *kvm, struct kvm_irqchip *chip)
+</code></pre>
+<p>fonksiyonlarına dallanıyor.</p>
+<ul>
+<li>4.26) KVM_GET_IRQCHIP: Caller tarafından sağlanan bir arabelleğe KVM_CREATE_IRQCHIP ile oluşturulan çekirdek interrupt denetleyicisinin durumunu okur. </li>
+<li>4.27) KVM_SET_IRQCHIP: Caller tarafından sağlanan bir arabelleğe KVM_CREATE_IRQCHIP ile oluşturulan çekirdek interrupt denetleyicisinin durumunu yazar. </li>
+</ul>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_pit">KVM_CAP_PIT</h2>
+<p>KVM_CAP_PIT bayrağı ile gelen özellik KVM_GET_PIT ve KVM_SET_PIT ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_GET_PIT ve  KVM_SET_PIT bayrakları çekirdek tarafında </p>
+<pre><code>kvm_vm_ioctl_get_pit(struct kvm *kvm, struct kvm_pit_state *ps)
+kvm_vm_ioctl_set_pit(struct kvm *kvm, struct kvm_pit_state *ps)
+</code></pre>
+<p>fonksiyonlarına dallanıyor. Güncel KVM dökümanında açıklama bulamadım.</p>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_pit2">KVM_CAP_PIT2</h2>
+<p>KVM_CAP_PIT2 bayrağı ile gelen özellik KVM_GET_PIT2 ve KVM_SET_PIT2 ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_GET_PIT2 ve KVM_SET_PIT2 bayrakları çekirdek tarafında </p>
+<pre><code>kvm_vm_ioctl_get_pit2(struct kvm *kvm, struct kvm_pit_state2 *ps)
+kvm_vm_ioctl_set_pit2(struct kvm *kvm, struct kvm_pit_state2 *ps)
+</code></pre>
+<p>fonksiyonlarına dallanıyor.</p>
+<ul>
+<li>4.72) KVM_GET_PIT2: Çekirdek içerisindeki PIT modelinin durumunu döndürür.</li>
+<li>4.73) KVM_GET_PIT2: Çekirdek içerisindeki PIT modelinin durumuna yazar.</li>
+</ul>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_enable_cap">KVM_CAP_ENABLE_CAP</h2>
+<p>KVM_CAP_ENABLE_CAP bayrağı ile gelen özellik KVM_ENABLE_CAP ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_ENABLE_CAP bayrakları çekirdek tarafında </p>
+<pre><code>kvm_vm_ioctl_enable_cap(struct kvm *kvm,struct kvm_enable_cap *cap)
+</code></pre>
+<p>fonksiyonlarına dallanıyor.</p>
+<ul>
+<li>4.37) KVM_ENABLE_CAP: KVM'de varsayılan olarak tüm uzantılar etkin olarak gelmiyor. Uygulama, bu ioctl'yi kullanarak bir eklentiyi etkinleştirebilir ve konuk kullanıcının kullanımına sunabilir.</li>
+</ul>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_pmu_event_filter">KVM_CAP_PMU_EVENT_FILTER</h2>
+<p>KVM_CAP_PMU_EVENT_FILTER bayrağı ile gelen özellik KVM_SET_PMU_EVENT_FILTER ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_SET_PMU_EVENT_FILTER bayrakları çekirdek tarafında </p>
+<pre><code>kvm_vm_ioctl_set_pmu_event_filter(struct kvm *kvm, void __user *argp)
+</code></pre>
+<p>fonksiyonlarına dallanıyor.</p>
+<ul>
+<li>4.120) KVM_SET_PMU_EVENT_FILTER: Bu ioctl kullanıcının yapabileceği PMU olaylarını kısıtlar.</li>
+</ul>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_set_identity_map_addr">KVM_CAP_SET_IDENTITY_MAP_ADDR</h2>
+<p>KVM_CAP_SET_IDENTITY_MAP_ADDR bayrağı ile gelen özellik KVM_SET_IDENTITY_MAP_ADDR ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_SET_IDENTITY_MAP_ADDR bayrakları çekirdek tarafında </p>
+<pre><code>kvm_vm_ioctl_set_identity_map_addr(struct kvm *kvm, u64 ident_addr)
+</code></pre>
+<p>fonksiyonlarına dallanıyor.</p>
+<ul>
+<li>4.40) KVM_SET_IDENTITY_MAP_ADDR: Bu ioctl, konuk kullanıcının fiziksel adres alanındaki one-page bölgenin fiziksel adresini tanımlar.</li>
+</ul>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_x86_msr_filter">KVM_CAP_X86_MSR_FILTER</h2>
+<p>KVM_CAP_X86_MSR_FILTER bayrağı ile gelen özellik KVM_X86_SET_MSR_FILTER ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_X86_SET_MSR_FILTER bayrakları çekirdek tarafında </p>
+<pre><code>kvm_vm_ioctl_set_msr_filter(struct kvm *kvm, void __user *argp)
+</code></pre>
+<p>fonksiyonlarına dallanıyor.</p>
+<!-- ----------------------- -->
+
+<h2 id="kvm_cap_mce">KVM_CAP_MCE</h2>
+<p>KVM_CAP_MCE bayrağı ile gelen özellik KVM_X86_SET_MCE, KVM_X86_GET_MCE_CAP_SUPPORTED  ioctl'ları ile yönetilebiliyor; x86 üzerinde KVM_X86_SET_MCE, KVM_X86_GET_MCE_CAP_SUPPORTED bayrakları çekirdek tarafında </p>
+<pre><code>kvm_vcpu_ioctl_x86_setup_mce(struct kvm_vcpu *vcpu, u64 mcg_cap)
+kvm_vcpu_ioctl_x86_set_mce(struct kvm_vcpu *vcpu, struct kvm_x86_mce *mce)
+
+u64 __read_mostly kvm_mce_cap_supported = MCG_CTL_P | MCG_SER_P;
+</code></pre>
+<p>fonksiyonlarına ve değişkenlere dallanıyor.</p>
+<ul>
+<li>4.105) KVM_X86_SETUP_MCE: : Makine onay hata kodu'nu (MCE) oluşturur.</li>
+<li>4.106) KVM_X86_SET_MCE: Makine onay hata kodu'nu (MCE) konuk kullanıcının içine yerleştirir.</li>
+</ul>
               
             </div>
           </div>
