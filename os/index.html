@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Yararlı Projeler - KVM - Qemu</title>
+  <title>İşletim Sistemleri Genel Bakış - KVM - Qemu</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Yararl\u0131 Projeler";
-    var mkdocs_page_input_path = "projeler.md";
+    var mkdocs_page_name = "\u0130\u015fletim Sistemleri Genel Bak\u0131\u015f";
+    var mkdocs_page_input_path = "os.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -55,20 +55,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../kvm/">KVM</a>
                     </li>
                 </ul>
-                <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Yararlı Projeler</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#virtualization">Virtualization</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#sistem-programlama">Sistem Programlama</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#kvm">KVM</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#qemu">QEMU</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#rust">Rust</a>
-    </li>
-    </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../projeler/">Yararlı Projeler</a>
                     </li>
                 </ul>
                 <ul>
@@ -96,7 +84,7 @@
     
       
     
-    <li>Yararlı Projeler</li>
+    <li>İşletim Sistemleri Genel Bakış</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -107,46 +95,39 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="yararl-linkler">Yararlı Linkler</h1>
-<p>Örnek proje ve kaynaklar burada listelenecektir.</p>
-<h2 id="virtualization">Virtualization</h2>
+                <h1 id="isletim-sistemleri-genel-baks">İşletim Sistemleri Genel Bakış</h1>
+<h2 id="process">Process</h2>
 <ul>
-<li>Virtualization Hakkında Dersler <a href="https://www.cse.iitb.ac.in/~cs695/">link</a></li>
-<li>Awesome Virtualization - <a href="https://github.com/Wenzel/awesome-virtualization">link</a></li>
+<li>Process bir çalışan bir programdır</li>
+<li>Bu programlar derlenerek executable haline getirilir.</li>
+<li>Executable dosyalarında CPU instruction'ları bulunur.</li>
+<li>OS bu process'i çalıştırabilmek için RAM'den hafıza ayırır.<ul>
+<li>Kod</li>
+<li>Heap: dinamik işlemler için kullanılacak <code>malloc</code> vs</li>
+<li>Stack: return adresler, lokal değişkenler burada tutulur.</li>
 </ul>
-<h2 id="sistem-programlama">Sistem Programlama</h2>
+</li>
+<li>Tüm instructionlar ve değişlenkler bellekte tutulur ve her birinin adresi vardır.</li>
+</ul>
+<h2 id="process-execution">Process Execution</h2>
 <ul>
-<li>CS 361: Systems Programming <a href="https://www.youtube.com/channel/UCmuBtK7so_50FGKszcdXPlg">link</a></li>
+<li>Bir process CPU tarafından çalıştırılırken bu programın çalışması için gerekli bilgiler CPU'nun registerlarına yüklenir.</li>
 </ul>
-<h2 id="kvm">KVM</h2>
-<ul>
-<li><strong>KVM-API</strong> <a href="https://lwn.net/Articles/658511/">link</a></li>
-<li>KVM-Hello <a href="https://github.com/dpw/kvm-hello-world">link</a></li>
-<li>Implement KVM - <a href="https://david942j.blogspot.com/2018/10/note-learning-kvm-implement-your-own.html">link</a></li>
-<li>KVM Tool - <a href="https://github.com/kvmtool/kvmtool">link</a></li>
-<li>KVM Sample - <a href="https://github.com/soulxu/kvmsample">link</a></li>
-</ul>
-<h2 id="qemu">QEMU</h2>
-<ul>
-<li>QEMU internals <a href="https://airbus-seclab.github.io/qemu_blog/">link</a></li>
-</ul>
-<h2 id="rust">Rust</h2>
-<ul>
-<li>!!Con 2019 - Build your own virtual machine with /dev/kvm and Rust! by Josh Triplett - <a href="https://www.youtube.com/watch?v=A_diEEpAfpM">link</a></li>
-</ul>
+<pre><code class="language-bash">+--------------+
+|              +----&gt; Stack Pointer
++--------------+
+|              |
++--------------+
+|              |
++--------------+
+|              |
++--------------+
+     STACK
+</code></pre>
               
             </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../ekler/" class="btn btn-neutral float-right" title="Ekler">Next <span class="icon icon-circle-arrow-right"></span></a>
-      
-      
-        <a href="../kvm/" class="btn btn-neutral" title="KVM"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
@@ -170,10 +151,6 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../kvm/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../ekler/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
